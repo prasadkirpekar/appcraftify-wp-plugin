@@ -1,20 +1,57 @@
-<template>
-  <div>
-    <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
-      <section>
-        <span class="block text-6xl font-bold mb-1">Dashboard Page vite</span>
-        <div class="text-2xl text-primary font-bold mb-3">Created by aladin</div>
-        <p class="mt-0 mb-4 text-700 line-height-3">No need to reload your page 🥳</p>
-        <a href="https://wpminers.com/make-wordpress-plugin-using-vue-with-vite-build/" target="_blank" class="text-primary text-blue-500 font-bold">Read the dev docs</a>
-      </section>
-    </div>
-  </div>
-</template>
-<script type="module">
+<template >
+    <el-row class="p-10">
+        <el-col :span="6">
+            <div style="height: 300px">
+            <el-steps direction="vertical" :active="activeTab">
+                <el-step title="Step 1" description="Intial setup"/>
+                <el-step title="Step 2" description="Connect site" />
+                <el-step title="Step 3" description="Build App"/>
+            </el-steps>
+            </div>
+        </el-col>
+        <el-col :span="18">
+            <div v-if="activeTab==0">
+                <div class="text-2xl  mb-2">Prerequisite</div>
+                <div class=" text-sm">We JWT Auth plugin for app to provide login/register functionality</div>
+                <div class="text-sm mb-10">It is verified by us and plugin is safe to install</div>
+                
+                <el-button >Install JWT Auth Plugin</el-button>
+            </div>
+            <div v-if="activeTab==1">
+                <div class="text-2xl mb-2">Link to AppCraftify</div>
+                <div class=" text-sm">We will attempt to link your side in AppCraftify dashboard</div>
+                <div class=" text-sm mb-10">You will be able to build your app after that</div>
+                <el-button>Add site</el-button>
+            </div>
+            <div v-if="activeTab==2">
+                <div class="text-2xl mb-2">Configure and Build</div>
+                <div class=" text-sm">Edit default setting as per your need</div>
+                <div class=" text-sm mb-10">After you submit build you should get email from us in 24hrs with app link</div>
+                <el-button>Add site</el-button>
+            </div>
+            <el-button @click="nextStep">Next</el-button>
+        </el-col>
+    </el-row>
+
+  </template>
+  
+
+<script>
 
 export default {
-    name: "dashboard-page",
+    name: "Dashboard",
     components: {
     },
-};
+    data(){
+        return {
+            activeTab:0
+        }
+    },
+    methods:{
+        nextStep(){
+            if(this.activeTab>=2) this.activeTab=0
+            this.activeTab+=1
+        }
+    }
+}
 </script>

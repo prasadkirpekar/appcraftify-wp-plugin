@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script type="module">
+<script>
 export default {
     name: 'Contact',
     data() {

@@ -1,6 +1,6 @@
 import routes from './routes';
 import { createWebHashHistory, createRouter } from 'vue-router'
-import PluginClassName from './Bits/AppMixins';
+import AppCraftify from './Bits/AppMixins';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -8,17 +8,17 @@ const router = createRouter({
 });
 
 
-const framework = new PluginClassName();
+const framework = new AppCraftify();
 
-framework.app.config.globalProperties.appVars = window.PluginClassNameAdmin;
+framework.app.config.globalProperties.appVars = window.AppCraftifyAdmin;
 
-window.PluginClassNameApp = framework.app.use(router).mount('#pluginlowercase_app');
+window.AppCraftifyApp = framework.app.use(router).mount('#AppCraftify_app');
 
 router.afterEach((to, from) => {
-    jQuery('.pluginlowercase_menu_item').removeClass('active');
+    jQuery('.AppCraftify_menu_item').removeClass('active');
     let active = to.meta.active;
     if(active) {
-        jQuery('.pluginlowercase_main-menu-items').find('li[data-key='+active+']').addClass('active');
+        jQuery('.AppCraftify_main-menu-items').find('li[data-key='+active+']').addClass('active');
     }
 });
 
