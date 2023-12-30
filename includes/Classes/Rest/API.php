@@ -77,6 +77,24 @@ class API extends WP_REST_Controller
                 return true;
             }
         ));
+
+        register_rest_route($this->namespace,
+        '/' . $this->rest_base . '/linkSiteCallback', array(
+            'methods' => 'POST',
+            'callback' => [$this, 'linkSiteCallback'],
+            'permission_callback' => function($request){
+                return $this->isValidAPIKey($request['key']);
+            }
+        ));
+
+        register_rest_route($this->namespace,
+        '/' . $this->rest_base . '/appBuildCallback', array(
+            'methods' => 'POST',
+            'callback' => [$this, 'appBuildCallback'],
+            'permission_callback' => function($request){
+                return $this->isValidAPIKey($request['key']);
+            }
+        ));
         
 
         if(WOOCOMMERCE_ACTIVE){
@@ -86,8 +104,6 @@ class API extends WP_REST_Controller
         
         
     }
-
-
 
     function registerWooCommerceRoutes(){
 
@@ -165,6 +181,28 @@ class API extends WP_REST_Controller
 
 
 
+    }
+
+    function isValidAPIKey($key){
+        $settings =  get_option('AppCraftify_settings');
+        return $key == $settings['apiKey'];
+    }
+
+    function linkSiteCallback(){
+        $settings =  get_option('AppCraftify_settings');
+        $settings['isSiteLinked'] = true;
+        return update_option('AppCraftify_settings', $settings);
+    }
+
+    /**
+     * Updates the 'isAppBuilt' setting to true in the 'AppCraftify_settings' option.
+     *
+     * @return bool Returns true if the update was successful, false otherwise.
+     */
+    function appBuildCallback(){
+        $settings =  get_option('AppCraftify_settings');
+        $settings['isAppBuilt'] = true;
+        return update_option('AppCraftify_settings', $settings);
     }
 
     function initPluginOptions(){

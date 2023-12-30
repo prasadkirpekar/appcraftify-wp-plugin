@@ -10,7 +10,7 @@
                 <el-row class="flex">
                 <el-col :span="22">
                     
-                        <el-input v-model="settings.apiKey" placeholder="API Key"></el-input>
+                        <el-input disabled v-model="settings.apiKey" placeholder="API Key"></el-input>
                     
                 </el-col>
                 <el-col :span="2">
@@ -18,6 +18,7 @@
                         <el-button  @click="submitForm('form')">Copy</el-button>
                     
                 </el-col>
+                
             </el-row>
             </el-form-item>
             <el-form-item>

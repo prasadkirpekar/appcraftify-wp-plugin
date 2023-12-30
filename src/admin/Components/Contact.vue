@@ -1,18 +1,30 @@
 <template>
-  <div>
-        <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
-            <section>
-                <span class="block text-6xl font-bold mb-1">Contacts Page vite</span>
-                <div class="text-2xl text-primary font-bold mb-3">Created with Vite</div>
-                <p class="mt-0 mb-4 text-700 line-height-3">No need to reload your page 🥳</p>
-            </section>
-        </div>
+  <div class="p-10 text-bas">
+    <el-descriptions
+    :column="1" border title="Site information">
+    <el-descriptions-item label="Site Url">{{ AppCraftifyAdmin.siteUrl }}</el-descriptions-item>
+    <el-descriptions-item label="Supported app version">0.1.0 and above (This is app version supported by AppCraftify platform)</el-descriptions-item>
+    <el-descriptions-item label="WooCommerce Active">{{ wooCommerceActive }}</el-descriptions-item>
+  </el-descriptions>
   </div>
 </template>
 
 <script>
+import { mapWritableState, mapActions } from "pinia";
+import { appStore } from "../Bits/store";
 export default {
     name: 'Contact',
+    computed: {
+        ...mapWritableState(appStore, [
+            
+        ]),
+        AppCraftifyAdmin(){
+            return AppCraftifyAdmin;
+        },
+        wooCommerceActive(){
+            return this.AppCraftifyAdmin.isWooInstalled? "Yes":"No";
+        }
+    },
     data() {
         return {
             page: "contact"

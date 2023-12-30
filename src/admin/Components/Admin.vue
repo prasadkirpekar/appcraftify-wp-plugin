@@ -14,8 +14,8 @@
         </div>
       </div>
     </div>
-    <div class="min-h-screen">
-      <el-tabs type="border-card" v-model="activeName" class="demo-tabs min-h-screen">
+    <div>
+      <el-tabs v-if="isReady" style="height: 70vh;" type="border-card" v-model="activeName" class="demo-tabs">
         <el-tab-pane class="h-screen80 overflow-scroll" label="Dashboard" name="dashboard">
             <Dashboard></Dashboard>
           </el-tab-pane>
@@ -43,11 +43,13 @@ export default {
   },
   data() {
     return {
-      activeName: 'dashboard'
+      activeName: 'dashboard',
+      isReady:false
     };
   },
-  mounted() {
-    this.getSettings();
+  async mounted() {
+    await this.getSettings();
+    this.isReady=true
   },
   methods:{
     ...mapActions(appStore, [

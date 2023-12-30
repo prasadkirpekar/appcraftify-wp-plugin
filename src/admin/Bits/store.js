@@ -7,6 +7,8 @@ export const appStore = defineStore('app', {
         settings: {
             enabled: true,
             apiKey: '',
+            isSiteLinked:false,
+            isAppBuilt: false,
         }
     }),
 
@@ -76,6 +78,72 @@ export const appStore = defineStore('app', {
             }
             return false
         },
+
+        async jwtPluginInstall(){
+            let res = await axios
+                .post(
+                    AppCraftifyAdmin.ajaxurl,
+                   {
+                        action: "AppCraftify_installAuthPluginInstall",
+                        nonce: AppCraftifyAdmin.AppCraftify_nonce,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded;",
+                        },
+                    },
+                )
+            if (res.status == 200) {
+                ElMessage({
+                    message: "Plugin installed!",
+                    type: 'success',
+                    offset: 50
+                })
+                return true   
+            }
+            else{
+                ElMessage({
+                    message: "Unable to install!",
+                    type: 'error',
+                    offset: 50
+                })
+            }
+            return false
+        },
+
+        async isJWTAuthSecretKeyDefined(){
+            let res = await axios
+                .post(
+                    AppCraftifyAdmin.ajaxurl,
+                    {
+                        action: "AppCraftify_isJWTAuthSecretKeyDefined",
+                        nonce: AppCraftifyAdmin.AppCraftify_nonce,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded;",
+                        },
+                    },
+                )
+            if (res.status == 200  && res.data.success  && res.data.data) {
+                ElMessage({
+                    message: "Verified successfully!",
+                    type: 'success',
+                    offset: 50
+                })
+                return true   
+            }
+            else{
+                ElMessage({
+                    message: "Unable to verify!",
+                    type: 'error',
+                    offset: 50
+                })
+            }
+            return false
+        }
+
+        
     }
 
 });

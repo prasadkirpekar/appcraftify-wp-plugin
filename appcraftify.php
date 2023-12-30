@@ -21,6 +21,8 @@ class AppCraftify {
 
     var $restRoutes = null;
     var $adminAjax = null;
+    var $helper = null;
+    var $settings = null;
 
     public function boot()
     {
@@ -98,7 +100,10 @@ class AppCraftify {
             'ajaxurl' => admin_url('admin-ajax.php'),
             'i18n' => $translatable,
             'AppCraftify_nonce' => wp_create_nonce('AppCraftify_nonce'),
-            'options'=> get_option('AppCraftify_settings')
+            'options'=> get_option('AppCraftify_settings'),
+            'isJWTInstalled' => $this->helper->authPluginIsPluginInstalled('jwt-authentication-for-wp-rest-api/jwt-auth.php') && defined('JWT_AUTH_SECRET_KEY'),
+            'isWooInstalled' => $this->helper->authPluginIsPluginInstalled('woocommerce/woocommerce.php'),
+            'siteUrl'=> site_url()
         ));
 
         wp_localize_script('AppCraftify-script-boot', 'AppCraftifyAdmin', $AppCraftify);
@@ -148,7 +153,7 @@ class AppCraftify {
         register_activation_hook(__FILE__, function ($newWorkWide) {
             require_once(APPCRAFTIFY_DIR . 'includes/Classes/Activator.php');
             $activator = new \AppCraftify\Classes\Activator();
-            $activator->migrateDatabases($newWorkWide);
+            $activator->initSettings();
         });
     }
 
@@ -169,6 +174,8 @@ class AppCraftify {
     public function initClasses(){
         $this->restRoutes = new \AppCraftify\Classes\Rest\API();
         $this->adminAjax = new \AppCraftify\Classes\Ajax();
+        $this->helper = new \AppCraftify\Classes\Helper();
+        $this->settings = get_option('AppCraftify_settings');
     }
 }
 
