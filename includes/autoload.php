@@ -9,7 +9,6 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-include 'global_functions.php';
 if (!function_exists('AppCraftifyAutoload')) {
     /**
      * Plugin autoloader.
