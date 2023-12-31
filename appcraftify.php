@@ -54,17 +54,7 @@ class AppCraftify {
                 'AppCraftify.php',
                 array($this, 'renderAdminPage'),
                 'dashicons-editor-code',
-                25
-            );
-            $submenu['AppCraftify.php']['dashboard'] = array(
-                'Dashboard',
-                'manage_options',
-                'admin.php?page=AppCraftify.php#/',
-            );
-            $submenu['AppCraftify.php']['contact'] = array(
-                'Contact',
-                'manage_options',
-                'admin.php?page=AppCraftify.php#/contact',
+                90
             );
         });
     }
