@@ -22,7 +22,7 @@ class AppCraftify {
     var $restRoutes = null;
     var $adminAjax = null;
     var $helper = null;
-    var $settings = null;
+    var $cors =  null;
 
     public function boot()
     {
@@ -137,7 +137,7 @@ class AppCraftify {
         $this->restRoutes = new \AppCraftify\Classes\Rest\API();
         $this->adminAjax = new \AppCraftify\Classes\Ajax();
         $this->helper = new \AppCraftify\Classes\Helper();
-        $this->settings = get_option('AppCraftify_settings');
+        $this->cors = new \AppCraftify\Classes\CORS();
     }
 }
 

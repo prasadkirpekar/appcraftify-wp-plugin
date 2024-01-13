@@ -83,7 +83,7 @@ class API extends WP_REST_Controller
             'methods' => 'POST',
             'callback' => [$this, 'linkSiteCallback'],
             'permission_callback' => function($request){
-                return $this->isValidAPIKey($request['key']);
+                return $this->isValidAPIKey($request->get_header('api_key'));
             }
         ));
 
@@ -92,7 +92,26 @@ class API extends WP_REST_Controller
             'methods' => 'POST',
             'callback' => [$this, 'appBuildCallback'],
             'permission_callback' => function($request){
-                return $this->isValidAPIKey($request['key']);
+                return $this->isValidAPIKey($request->get_header('api_key'));
+            }
+        ));
+
+        register_rest_route($this->namespace,
+        '/' . $this->rest_base . '/updateSiteConfigCallback', array(
+            'methods' => 'POST',
+            'callback' => [$this, 'updateSiteConfigCallback'],
+            'permission_callback' => function($request){
+                //pass key from header
+                return $this->isValidAPIKey($request->get_header('api_key'));
+            }
+        ));
+
+        register_rest_route($this->namespace,
+        '/' . $this->rest_base . '/post/type/all', array(
+            'methods' => 'GET',
+            'callback' => [$this, 'getAvailablePostTypes'],
+            'permission_callback' => function($request){
+                return true;
             }
         ));
         
@@ -183,6 +202,13 @@ class API extends WP_REST_Controller
 
     }
 
+
+	function getAvailablePostTypes(){
+		$get_cpt_args = array('public'   => true);
+		$post_types = get_post_types( $get_cpt_args, 'object' ); // use 'names' if you want to get only name of the post type.
+		return $post_types;
+	}
+
     function isValidAPIKey($key){
         $settings =  get_option('AppCraftify_settings');
         return $key == $settings['apiKey'];
@@ -192,6 +218,12 @@ class API extends WP_REST_Controller
         $settings =  get_option('AppCraftify_settings');
         $settings['isSiteLinked'] = true;
         return update_option('AppCraftify_settings', $settings);
+    }
+
+    function updateSiteConfigCallback($req){
+        $data = $req->get_params();
+        $config = $data['config'];
+        return update_option('AppCraftify_config', $config);
     }
 
     /**
@@ -437,7 +469,7 @@ class API extends WP_REST_Controller
     /* Apperr Screen config */
     public function getAppConfig()
     {
-        return get_option('apperr_options_data', [])->appConfig;
+        return json_decode(get_option('AppCraftify_config', "{}"));
     }
 
     public function getCustomPosts($request)
