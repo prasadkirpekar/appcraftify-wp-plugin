@@ -9,6 +9,10 @@
  * Version: 0.1.0
  * Text Domain: AppCraftify
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 define('APPCRAFTIFY_URL', plugin_dir_url(__FILE__));
 define('APPCRAFTIFY_DIR', plugin_dir_path(__FILE__));
 
@@ -23,6 +27,7 @@ class AppCraftify {
     var $adminAjax = null;
     var $helper = null;
     var $cors =  null;
+    var $cpt = null;
 
     public function boot()
     {
@@ -138,10 +143,47 @@ class AppCraftify {
         $this->adminAjax = new \AppCraftify\Classes\Ajax();
         $this->helper = new \AppCraftify\Classes\Helper();
         $this->cors = new \AppCraftify\Classes\CORS();
+        $this->cpt = new \AppCraftify\Classes\CPT();
     }
 }
 
-(new AppCraftify())->boot();
+
+if ( ! function_exists( 'app_fs' ) ) {
+    // Create a helper function for easy SDK access.
+    function app_fs() {
+        global $app_fs;
+
+        if ( ! isset( $app_fs ) ) {
+            // Include Freemius SDK.
+            require_once dirname(__FILE__) . '/freemius/start.php';
+
+            $app_fs = fs_dynamic_init( array(
+                'id'                  => '14783',
+                'slug'                => 'appcraftify',
+                'type'                => 'plugin',
+                'public_key'          => 'pk_723a49e434129730f0032d536e99d',
+                'is_premium'          => true,
+                'premium_suffix'      => 'Pro',
+                // If your plugin is a serviceware, set this option to false.
+                'has_premium_version' => true,
+                'has_addons'          => false,
+                'has_paid_plans'      => true,
+                'menu'                => array(
+                    'slug'           => 'AppCraftify.php',
+                    'support'        => false,
+                ),
+            ) );
+        }
+
+        return $app_fs;
+    }
+
+    // Init Freemius.
+    app_fs();
+    // Signal that SDK was initiated.
+    do_action( 'app_fs_loaded' );
+    (new AppCraftify())->boot();
+}
 
 
 

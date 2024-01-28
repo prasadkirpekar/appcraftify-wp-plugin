@@ -6,7 +6,7 @@ class CORS{
 
     function __construct()
     {
-        add_action('rest_api_init', 'add_cors_headers');
+        add_action('rest_api_init', [$this, 'add_cors_headers']);
     }
 
     

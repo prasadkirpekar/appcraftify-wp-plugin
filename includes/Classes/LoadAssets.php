@@ -9,6 +9,7 @@ class LoadAssets
         //Vite::enqueueScript('AppCraftify-script-boot', 'admin/start.js', array('jquery'), APPCRAFTIFY_VERSION, true);
         if (defined('APPCRAFTIFY_DEVELOPMENT') && APPCRAFTIFY_DEVELOPMENT !== 'yes') {
             wp_enqueue_script('AppCraftify-script-boot', APPCRAFTIFY_URL . 'assets/js/start.js', array('jquery'), APPCRAFTIFY_VERSION, false);
+		wp_enqueue_style('AppCraftify-style-boot', APPCRAFTIFY_URL . 'assets/css/start.css', array(), APPCRAFTIFY_VERSION);
         } else {
             add_filter('script_loader_tag', function ($tag, $handle, $src) {
                 return $this->addModuleToScript($tag, $handle, $src);

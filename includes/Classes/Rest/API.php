@@ -239,7 +239,7 @@ class API extends WP_REST_Controller
 
     function initPluginOptions(){
         
-        return ["isWooCommerceActive"=>WOOCOMMERCE_ACTIVE];
+        return ["isWooCommerceActive"=>WOOCOMMERCE_ACTIVE, 'isPro'=>!is_not_paying()];
     }
 
 
