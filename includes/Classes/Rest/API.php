@@ -3,6 +3,7 @@
 namespace AppCraftify\Classes\Rest;
 
 use WP_REST_Controller;
+use AppCraftify\Classes\Helper;
 
 /**
  * REST_API Handler
@@ -107,6 +108,15 @@ class API extends WP_REST_Controller
         ));
 
         register_rest_route($this->namespace,
+        '/' . $this->rest_base . '/generateMagicCode', array(
+            'methods' => 'POST',
+            'callback' => [$this, 'generateMagicCode'],
+            'permission_callback' => function($request){
+                return is_user_logged_in();
+            }
+        ));
+
+        register_rest_route($this->namespace,
         '/' . $this->rest_base . '/post/type/all', array(
             'methods' => 'GET',
             'callback' => [$this, 'getAvailablePostTypes'],
@@ -116,7 +126,7 @@ class API extends WP_REST_Controller
         ));
         
 
-        if(WOOCOMMERCE_ACTIVE){
+        if(APPCRAFTIFY_WOOCOMMERCE_ACTIVE){
             $this->registerWooCommerceRoutes();
         }
 
@@ -202,6 +212,13 @@ class API extends WP_REST_Controller
 
     }
 
+    function generateMagicCode()
+    {
+        //generate random alphanumeric string and store it as user meta
+        $code = Helper::generateRandomString();
+        update_user_meta(get_current_user_id(), 'appcraftify_magic_code', $code);
+        return ['magic_code' => $code];
+    }
 
 	function getAvailablePostTypes(){
 		$get_cpt_args = array('public'   => true);
@@ -239,7 +256,7 @@ class API extends WP_REST_Controller
 
     function initPluginOptions(){
         
-        return ["isWooCommerceActive"=>WOOCOMMERCE_ACTIVE, 'isPro'=>!is_not_paying()];
+        return ["isWooCommerceActive"=>APPCRAFTIFY_WOOCOMMERCE_ACTIVE, 'isPro'=>!app_fs()->is_not_paying()];
     }
 
 
@@ -413,15 +430,9 @@ class API extends WP_REST_Controller
 
         // set shipping address
         $cutomOrder->calculate_totals(); // calculate total
-        $pay_now_url = esc_url( $cutomOrder->get_checkout_payment_url() );
+        $pay_now_url = esc_url_raw( $cutomOrder->get_checkout_payment_url() );
         return ['checkout'=>$pay_now_url,'success'=>true];
         
-        // update_post_meta($cutomOrder->id, '_payment_method', $payment['name']); //set payment method
-        // update_post_meta($cutomOrder->id, '_payment_method_title', $payment['name']);
-
-        // if ($payment['paid']) {
-        //     $cutomOrder->update_status('processing');
-        // }
     }
 
 

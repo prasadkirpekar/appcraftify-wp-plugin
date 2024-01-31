@@ -28,6 +28,7 @@ class AppCraftify {
     var $helper = null;
     var $cors =  null;
     var $cpt = null;
+    var $auth = null;
 
     public function boot()
     {
@@ -68,7 +69,7 @@ class AppCraftify {
     public function defineConstants()
     {
         include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-        define( 'WOOCOMMERCE_ACTIVE', is_plugin_active( 'woocommerce/woocommerce.php' ));
+        define( 'APPCRAFTIFY_WOOCOMMERCE_ACTIVE', is_plugin_active( 'woocommerce/woocommerce.php' ));
     }
 
     public function renderAdminPage()
@@ -144,7 +145,9 @@ class AppCraftify {
         $this->helper = new \AppCraftify\Classes\Helper();
         $this->cors = new \AppCraftify\Classes\CORS();
         $this->cpt = new \AppCraftify\Classes\CPT();
+        $this->auth = new \AppCraftify\Classes\UserAuth();
     }
+
 }
 
 
