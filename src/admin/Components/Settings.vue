@@ -15,7 +15,7 @@
                 </el-col>
                 <el-col :span="2">
                     
-                        <el-button  @click="submitForm('form')">Copy</el-button>
+                        <el-button  @click="copyToClipboard(settings.apiKey)">Copy</el-button>
                     
                 </el-col>
                 
@@ -41,21 +41,12 @@ export default {
         ...mapActions(appStore, [
             'updateSettings'
         ]),
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.$message({
+        copyToClipboard(text){
+            navigator.clipboard.writeText(text);
+            this.$message({
                         type: 'success',
-                        message: 'Settings saved successfully'
+                        message: 'Copied to clipboard'
                     });
-                } else {
-                    this.$message({
-                        type: 'error',
-                        message: 'Please fill all the fields'
-                    });
-                    return false;
-                }
-            });
         }
     }
 }
