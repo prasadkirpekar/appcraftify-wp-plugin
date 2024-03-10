@@ -25,7 +25,6 @@ class CORS{
 
     function add_cors_headers() {
         if (isset($_SERVER['HTTP_ORIGIN'])) {
-
             header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
             header('Access-Control-Allow-Credentials: true');
             header('Access-Control-Max-Age: 86400');    // cache for 1 day
@@ -39,25 +38,14 @@ class CORS{
     }
 
     public function modifyHtaccess() {
-		$domains = ["app.appcraftify.com","localhost"];
-        if ( ! empty( $domains ) ) {
-            $origin  = 'SetEnvIf Origin "^http(s)?://(.+\.)?(' . implode( '|', $domains ) . ')$" origin_is=$0' . PHP_EOL;
-            $origin .= 'Header always set Access-Control-Allow-Origin %{origin_is}e env=origin_is';
-        }
-        $credentials = 'Header set Access-Control-Allow-Credentials "false"';
-		if ( empty( $origin ) ) {
-			return;
-		}
 		$lines = array(
 			'<IfModule mod_headers.c>',
 			'<FilesMatch "\.(avifs?|bmp|cur|gif|ico|jpe?g|jxl|a?png|svgz?|webp)$">',
-			$origin,
-			$credentials,
+			'Header set Access-Control-Allow-Origin: http://app.appcraftify.com',
+			'Header set Access-Control-Allow-Origin: https://app.appcraftify.com env=HTTPS',
 			'</FilesMatch>',
 			'</IfModule>',
 		);
-
-		// Ensure get_home_path() is declared.
 		$this->write( $lines );
 	}
 

@@ -41,11 +41,9 @@ class Helper
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $apiKey = '';
         $length = 32;
-
         for ($i = 0; $i < $length; $i++) {
-            $apiKey .= $characters[rand(0, strlen($characters) - 1)];
+            $apiKey .= $characters[wp_rand(0, strlen($characters) - 1)];
         }
-
         return $apiKey;
     }
 }

@@ -350,7 +350,7 @@ class API extends WP_REST_Controller
         foreach (get_posts($args) as $address) {
             array_push($addresses, get_post_meta($address->ID, 'apperr_address', true));
         }
-        echo json_encode($addresses);
+        echo wp_json_encode($addresses);
     }
 
     function updateAddress($req)

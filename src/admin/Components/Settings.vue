@@ -7,7 +7,7 @@
                 <el-switch v-model="settings.enabled"></el-switch>
                 </el-form-item>
                 <el-form-item label="Enable CORS">
-                <el-switch v-model="settings.enableCORS" @change="changeCORSSettings"></el-switch>
+                <el-switch v-model="settings.enableCORS"></el-switch>
                 </el-form-item>
             <el-form-item label="API Key">
                 <el-row class="flex">
