@@ -6,6 +6,9 @@
             <el-form-item label="Enable">
                 <el-switch v-model="settings.enabled"></el-switch>
                 </el-form-item>
+                <el-form-item label="Enable CORS">
+                <el-switch v-model="settings.enableCORS" @change="changeCORSSettings"></el-switch>
+                </el-form-item>
             <el-form-item label="API Key">
                 <el-row class="flex">
                 <el-col :span="22">
@@ -39,7 +42,8 @@ export default {
     },
     methods: {
         ...mapActions(appStore, [
-            'updateSettings'
+            'updateSettings',
+            'updateCORSSettings'
         ]),
         copyToClipboard(text){
             navigator.clipboard.writeText(text);
@@ -47,6 +51,9 @@ export default {
                         type: 'success',
                         message: 'Copied to clipboard'
                     });
+        },
+        changeCORSSettings(corsState){
+            this.updateCORSSettings(corsState)
         }
     }
 }

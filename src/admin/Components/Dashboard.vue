@@ -93,7 +93,7 @@ export default {
             open("https://appcraftify.com")
         },
         async checkSiteStatus(){
-            const loading = ElLoading.service({
+            var loading = ElLoading.service({
                 target:"#dashboard-content",
                 lock: true,
                 text: 'Checking status...',
@@ -117,7 +117,7 @@ export default {
             loading.close()
         },
         async checkBuildStatus(){
-            const loading = ElLoading.service({
+            var loading = ElLoading.service({
                 target:"#dashboard-content",
                 lock: true,
                 text: 'Checking status...',
@@ -144,7 +144,7 @@ export default {
             open("https://appcraftify.com")
         },
         async installPlugin(){
-            const loading = ElLoading.service({
+            var loading = ElLoading.service({
                 target:"#dashboard-content",
                 lock: true,
                 text: 'Installing...',
@@ -156,7 +156,7 @@ export default {
             loading.close()
         },
         async verifyWpConfig(){
-            const loading = ElLoading.service({
+            var loading = ElLoading.service({
                 target:"#dashboard-content",
                 lock: true,
                 text: 'Checking...',

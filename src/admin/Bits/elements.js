@@ -7,8 +7,8 @@ import '../../assets/admin.css';
 import 'element-plus/dist/index.css'
 
 
-const app = createApp({});
-const pinia = createPinia()
+var app = createApp({});
+var pinia = createPinia()
 app.use(pinia)
 app.use(ElementPlus)
 export default app;

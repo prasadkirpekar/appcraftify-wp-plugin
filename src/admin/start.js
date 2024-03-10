@@ -2,13 +2,13 @@ import routes from './routes';
 import { createWebHashHistory, createRouter } from 'vue-router'
 import AppCraftify from './Bits/AppMixins';
 
-const router = createRouter({
+var router = createRouter({
     history: createWebHashHistory(),
     routes
 });
 
 
-const framework = new AppCraftify();
+var framework = new AppCraftify();
 
 framework.app.config.globalProperties.appVars = window.AppCraftifyAdmin;
 

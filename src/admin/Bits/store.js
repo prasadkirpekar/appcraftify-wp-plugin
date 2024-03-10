@@ -2,13 +2,14 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import { ElMessage } from 'element-plus'
 
-export const appStore = defineStore('app', {
+export var appStore = defineStore('app', {
     state: () => ({
         settings: {
             enabled: true,
             apiKey: '',
             isSiteLinked:false,
             isAppBuilt: false,
+            enableCORS: false,
         }
     }),
 
@@ -64,6 +65,40 @@ export const appStore = defineStore('app', {
                 this.mergeSettings(res.data.data)
                 ElMessage({
                     message: "Settings saved!",
+                    type: 'success',
+                    offset: 50
+                })
+                return true   
+            }
+            else{
+                ElMessage({
+                    message: "Unable to update!",
+                    type: 'error',
+                    offset: 50
+                })
+            }
+            return false
+        },
+
+        async updateCORSSettings(corsState) {
+            let res = await axios
+                .post(
+                    AppCraftifyAdmin.ajaxurl,
+                   {
+                        action: "AppCraftify_updateCORSSettings",
+                        nonce: AppCraftifyAdmin.AppCraftify_nonce,
+                        corsState:corsState,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded;",
+                        },
+                    },
+                )
+            if (res.status == 200 && res.data.success) {
+                this.mergeSettings(res.data.data)
+                ElMessage({
+                    message: "CORS setting upated!",
                     type: 'success',
                     offset: 50
                 })

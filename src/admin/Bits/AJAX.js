@@ -1,7 +1,7 @@
-const request = function(method, route, data = {}) {
-    const url = `${window.PluginClassName.rest.url}/${route}`;
+var request = function(method, route, data = {}) {
+    var url = `${window.PluginClassName.rest.url}/${route}`;
 
-    const headers = {'X-WP-Nonce': window.PluginClassName.rest.nonce};
+    var headers = {'X-WP-Nonce': window.PluginClassName.rest.nonce};
 
     if (['PUT', 'PATCH', 'DELETE'].indexOf(method.toUpperCase()) !== -1) {
         headers['X-HTTP-Method-Override'] = method;
@@ -35,7 +35,7 @@ export default {
 };
 
 jQuery(document).ajaxSuccess((event, xhr, settings) => {
-    const nonce = xhr.getResponseHeader('X-WP-Nonce');
+    var nonce = xhr.getResponseHeader('X-WP-Nonce');
     if (nonce) {
         window.PluginClassName.rest.nonce = nonce;
     }

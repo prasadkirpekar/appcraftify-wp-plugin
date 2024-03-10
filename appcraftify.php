@@ -123,11 +123,6 @@ class AppCraftify {
             $activator = new \AppCraftify\Classes\Activator();
             $activator->initSettings();
         });
-        register_deactivation_hook(__FILE__, function ($newWorkWide) {
-            require_once(APPCRAFTIFY_DIR . 'includes/Classes/Activator.php');
-            $activator = new \AppCraftify\Classes\Activator();
-            $activator->deactivateRestore();
-        });
     }
 
 

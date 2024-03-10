@@ -1,14 +1,14 @@
-const glob = require('glob');
-const fs = require('fs');
+var glob = require('glob');
+var fs = require('fs');
 
 // For entry file selection
 glob("plugin-entry.php", function(err, files) {
         files.forEach(function(item, index, array) {
-            const data = fs.readFileSync(item, 'utf8');
-            const mapObj = {
+            var data = fs.readFileSync(item, 'utf8');
+            var mapObj = {
                 APPCRAFTIFY_PRODUCTION: "APPCRAFTIFY_DEVELOPMENT"
             };
-            const result = data.replace(/APPCRAFTIFY_PRODUCTION/gi, function (matched) {
+            var result = data.replace(/APPCRAFTIFY_PRODUCTION/gi, function (matched) {
                 return mapObj[matched];
             });
             fs.writeFile(item, result, 'utf8', function (err) {

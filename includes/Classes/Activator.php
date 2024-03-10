@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 use AppCraftify\Classes\Helper;
 
-use AppCraftify\Classes\CORS;
+
 /**
  * Ajax Handler Class
  * @since 1.0.0
@@ -21,12 +21,8 @@ class Activator
         $settings['isSiteLinked'] = false;
         $settings['apiKey'] = Helper::generateRandomString();
         $settings['enabled'] = true;
+        $settings['enableCORS'] = false;
         add_option('AppCraftify_settings', $settings);
-        (new CORS())->modifyHtaccess();
-    }
-
-    function deactivateRestore(){
-        (new CORS())->restore();
     }
 
 }

@@ -2,6 +2,8 @@
 
 namespace AppCraftify\Classes;
 
+use AppCraftify\Classes\CORS;
+
 class Ajax{
 
     var $helper = null;
@@ -15,6 +17,7 @@ class Ajax{
         add_action('wp_ajax_AppCraftify_isJWTAuthSecretKeyDefined', [$this, 'isJWTAuthSecretKeyDefined']);
         add_action('wp_ajax_AppCraftify_isSiteLinked', [$this, 'isSiteLinked']);
         add_action('wp_ajax_AppCraftify_isAppBuilt', [$this, 'isAppBuilt']);
+        add_action('wp_ajax_AppCraftify_updateCORSSettings', [$this, 'updateCORSSettings']);
         $this->helper = new \AppCraftify\Classes\Helper();
     }
 
@@ -91,6 +94,20 @@ class Ajax{
         } else {
             wp_send_json_success(false);
         }
+    }
+
+    function updateCORSSettings() {
+        $nonce = $_POST['nonce'];
+        if (!wp_verify_nonce($nonce, 'AppCraftify_nonce')) {
+            die('Busted!');
+        }
+        $corsState = filter_var($_POST['corsState'], FILTER_VALIDATE_BOOLEAN);
+        if($corsState) {
+            (new CORS())->modifyHtaccess();
+        } else {
+            (new CORS())->restore();
+        }
+        wp_send_json_success(true);
     }
 
 }

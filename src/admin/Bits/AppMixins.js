@@ -9,7 +9,7 @@ import {
     removeAllActions
 } from '@wordpress/hooks';
 
-const appStartTime = new Date();
+var appStartTime = new Date();
 
 
 export default class AppMixins {
@@ -26,7 +26,7 @@ export default class AppMixins {
     }
 
     extendVueConstructor() {
-        const self = this;
+        var self = this;
         app.mixin({
             methods: {
                 addFilter,
@@ -191,13 +191,13 @@ export default class AppMixins {
     }
 
     convertToText(obj) {
-        const string = [];
+        var string = [];
         if (typeof (obj) === 'object' && (obj.join === undefined)) {
-            for (const prop in obj) {
+            for (var prop in obj) {
                 string.push(this.convertToText(obj[prop]));
             }
         } else if (typeof (obj) === 'object' && !(obj.join === undefined)) {
-            for (const prop in obj) {
+            for (var prop in obj) {
                 string.push(this.convertToText(obj[prop]));
             }
         } else if (typeof (obj) === 'function') {
