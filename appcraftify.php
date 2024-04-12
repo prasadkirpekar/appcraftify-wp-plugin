@@ -1,13 +1,17 @@
 <?php
-
-/**
- * Plugin Name: AppCraftify
- * Plugin URI: https://AppCraftify.com/
- * Description: AppCraftify is an app builder plugin for WordPress.
- * Author: Prasad Kirpekar
- * Author URI: mailto:prasadkirpekar@outlook.com
- * Version: 0.1.0
- * Text Domain: AppCraftify
+/*
+ * Plugin Name:       AppCraftify
+ * Plugin URI:        https://appcraftify.com/
+ * Description:       AppCraftify is an app builder plugin for WordPress.
+ * Version:           0.1.0
+ * Requires at least: 5.0
+ * Requires PHP:      6.5.2
+ * Author:            AppCraftify
+ * Author URI:        https://appcraftify.com/
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Update URI:        https://appcraftify.com/
+ * Text Domain:       AppCraftify
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define('APPCRAFTIFY_URL', plugin_dir_url(__FILE__));
 define('APPCRAFTIFY_DIR', plugin_dir_path(__FILE__));
 
-define('APPCRAFTIFY_VERSION', '1.0.5');
+define('APPCRAFTIFY_VERSION', '0.1.0');
 
 // This will automatically update, when you run dev or production
 define('APPCRAFTIFY_DEVELOPMENT', 'yes');
@@ -153,17 +157,16 @@ class AppCraftify {
 
 }
 
-
-if ( ! function_exists( 'app_fs' ) ) {
+if ( ! function_exists( 'appcraftify_fs' ) ) {
     // Create a helper function for easy SDK access.
-    function app_fs() {
-        global $app_fs;
+    function appcraftify_fs() {
+        global $appcraftify_fs;
 
-        if ( ! isset( $app_fs ) ) {
+        if ( ! isset( $appcraftify_fs ) ) {
             // Include Freemius SDK.
             require_once dirname(__FILE__) . '/freemius/start.php';
 
-            $app_fs = fs_dynamic_init( array(
+            $appcraftify_fs = fs_dynamic_init( array(
                 'id'                  => '14783',
                 'slug'                => 'appcraftify',
                 'type'                => 'plugin',
@@ -181,15 +184,14 @@ if ( ! function_exists( 'app_fs' ) ) {
             ) );
         }
 
-        return $app_fs;
+        return $appcraftify_fs;
     }
 
     // Init Freemius.
-    app_fs();
+    appcraftify_fs();
     // Signal that SDK was initiated.
-    do_action( 'app_fs_loaded' );
+    do_action( 'appcraftify_fs_loaded' );
     (new AppCraftify())->boot();
 }
-
 
 

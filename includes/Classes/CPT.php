@@ -17,8 +17,8 @@ class CPT
             // CPT Options
             array(
                 'labels' => array(
-                    'name' => __('User Addresses'),
-                    'singular_name' => __('User Address')
+                    'name' => esc_html__('User Addresses', 'appcraftify'),
+                    'singular_name' => esc_html__('User Address', 'appcraftify'),
                 ),
                 'public' => true,
                 'has_archive' => true,

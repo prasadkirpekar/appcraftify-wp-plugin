@@ -25,7 +25,8 @@ class CORS{
 
     function add_cors_headers() {
         if (isset($_SERVER['HTTP_ORIGIN'])) {
-            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+			$sanitized_origin = sanitize_url($_SERVER['HTTP_ORIGIN']);
+            header("Access-Control-Allow-Origin: {$sanitized_origin}");
             header('Access-Control-Allow-Credentials: true');
             header('Access-Control-Max-Age: 86400');    // cache for 1 day
         }

@@ -19,7 +19,7 @@ class UserAuth{
             return;
         }
         if(!is_checkout()) return;
-        $code = $_REQUEST['magic_code'];
+        $code = sanitize_text_field($_REQUEST['magic_code']);
         $users = get_users(array(
             'meta_key' => 'appcraftify_magic_code',
             'meta_value' => $code

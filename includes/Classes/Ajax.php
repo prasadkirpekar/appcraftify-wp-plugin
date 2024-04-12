@@ -22,16 +22,15 @@ class Ajax{
 
     public function saveSettings()
     {
-        $nonce = $_POST['nonce'];
+        $nonce = sanitize_text_field($_POST['nonce']);
         if (!wp_verify_nonce($nonce, 'AppCraftify_nonce')) {
             die('Busted!');
         }
-        $settings = $_POST['settings'];
-        $settings['enabled'] = filter_var($settings['enabled'], FILTER_VALIDATE_BOOLEAN);
-        $settings['isAppBuilt'] = filter_var($settings['isAppBuilt'], FILTER_VALIDATE_BOOLEAN);
-        $settings['isSiteLinked'] = filter_var($settings['isSiteLinked'], FILTER_VALIDATE_BOOLEAN);
-        $settings['apiKey'] = sanitize_textarea_field($settings['apiKey']);
-        $settings['enableCORS'] = filter_var($settings['enableCORS'], FILTER_VALIDATE_BOOLEAN);
+        $settings['enabled'] = filter_var($_POST['settings']['enabled'], FILTER_VALIDATE_BOOLEAN);
+        $settings['isAppBuilt'] = filter_var($_POST['settings']['isAppBuilt'], FILTER_VALIDATE_BOOLEAN);
+        $settings['isSiteLinked'] = filter_var($_POST['settings']['isSiteLinked'], FILTER_VALIDATE_BOOLEAN);
+        $settings['apiKey'] = sanitize_textarea_field($_POST['settings']['apiKey']);
+        $settings['enableCORS'] = filter_var($_POST['settings']['enableCORS'], FILTER_VALIDATE_BOOLEAN);
         update_option('AppCraftify_settings', $settings);
         if($settings['enableCORS']) {
             (new CORS())->modifyHtaccess();
@@ -64,7 +63,6 @@ class Ajax{
         ob_clean();
         ob_start();
         if ( !is_wp_error( $installed ) && $installed ) {
-            $activate = activate_plugin( $plugin_slug );
             wp_send_json_success();
         } else {
             ob_flush();

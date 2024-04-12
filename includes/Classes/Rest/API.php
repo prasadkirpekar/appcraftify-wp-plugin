@@ -267,7 +267,7 @@ class API extends WP_REST_Controller
 
     function initPluginOptions(){
         
-        return ["isWooCommerceActive"=>APPCRAFTIFY_WOOCOMMERCE_ACTIVE, 'isPro'=>!app_fs()->is_not_paying()];
+        return ["isWooCommerceActive"=>APPCRAFTIFY_WOOCOMMERCE_ACTIVE, 'isPro'=>!appcraftify_fs()->is_not_paying()];
     }
 
 
